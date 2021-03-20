@@ -1,0 +1,75 @@
+data.frame(DadosSaeb)
+attach(DadosSaeb)
+#Tabela simples
+#Tabela relativa 
+table(DadosSaeb$`Você já foi reprovado?`) #TS Você já foi reprovado?
+round(prop.table(table(DadosSaeb$`Você já foi reprovado?`)),3) #TR Você já foi reprovado?
+table(DadosSaeb$`Você já abandonou a escola?`)#TS Você já abandonou a escola?
+round(prop.table(table(DadosSaeb$`Você já abandonou a escola?`)),3)#TR Você já abandonou a escola?
+table(DadosSaeb$`Você gosta de estudar Língua Portuguesa?`)#TS Você gosta de estudar Língua Portuguesa?
+prop.table(table(DadosSaeb$`Você gosta de estudar Língua Portuguesa?`))#TR Você gosta de estudar Língua Portuguesa?
+table(DadosSaeb$`Você gosta de estudar Matemática?`)
+prop.table(table(DadosSaeb$`Você gosta de estudar Matemática?`))
+table(DadosSaeb$`Você faz o dever de casa de Matemática?`)
+prop.table(table(DadosSaeb$`Você faz o dever de casa de Matemática?`))
+#Tabela cruzada
+cruzadoReprovado <- data.frame(DadosSaeb$`Você já foi reprovado?`)
+cruzadoAbandonou <- data.frame(DadosSaeb$`Você já abandonou a escola?`)
+cruzadoReprovadoAbandonou <- merge(cruzadoReprovado,cruzadoAbandonou)
+
+cruzadoGostaMatematica <- data.frame(DadosSaeb$`Você gosta de estudar Matemática?`)
+cruzadoDeverMatematica <- data.frame(DadosSaeb$`Você faz o dever de casa de Matemática?`)
+cruzadoGostaDeverMatematica <- merge(cruzadoGostaMatematica,cruzadoDeverMatematica)
+table(DadosSaeb$`Você gosta de estudar Matemática?`,DadosSaeb$`Você faz o dever de casa de Matemática?`)
+# Gráficos de barra
+g <- table(DadosSaeb$`Quando você entrou na escola?`)
+barplot(g)
+#Gráficos de setor 
+ x <- table(DadosSaeb$`Você gosta de estudar Matemática?`)
+y <- table(DadosSaeb$`Você gosta de estudar Língua Portuguesa?`)
+pie(x,main = "Você gosta de estudar matemática?",labels = c("28,2%", "71,7%"),col = c(4,2))
+legend("topleft",fill=c(4,2),legend = c("Não","Sim"))
+pie(y, main = "Você gosta de estudar Língua Portuguesa?",labels = c("18,3%","81,6%"),col=c(4,2))
+legend("topleft",fill=c(4,2),legend = c("Não","Sim"))
+#Criando as variavs
+m <- DadosSaeb$`Nota Matemática`
+p <- DadosSaeb$`Nota Português`
+# Medidas de posição e dispersão 
+M<-mean(m) #média nota matemática
+P<-mean(p) #média nota português
+getmode <- function(v) #função pra calcular moda
+{
+  uniqv <- unique(v)
+  uniqv[which.max(tabulate(match(v,uniqv)))]
+}
+print(getmode(p)) #exibindo a moda
+modaMatematica <- getmode(m)
+modaPortugues <- getmode(p)
+#calculando mediana e exibindo
+medianaMatematica<-median(m)
+medianaPortugues<-median(p)
+#Exibindo quartis para matematica e portugues
+summary(m)
+summary(p)
+#Exibindo percentis
+quantile(m)
+quantile(p)
+#Exibindo Decis
+quantile(m, seq(0.10, 0.9, 0.1))
+quantile(p, seq(0.10, 0.9, 0.1))
+#Variância
+var(m)
+var(p)
+#Desvio Padrão 
+sqrt(var(m))
+sqrt(var(p))
+#Coeficiente de Variação
+cvM<-100*sd(m)/mean(m)
+cvP<-100*sd(p)/mean(p)
+#Determinando boxplot
+boxplot(m,main = "Boxplot para notas de matemática",ylab = "Notas")
+boxplot(p,main = "Boxplot para notas de português",ylab = "Notas")
+#Histograma
+hist(m,main = "Notas de Matemática",xlab = "Notas",ylab = "Frequência Absoluta")
+hist(p,main = "Notas de Português",xlab = "Notas",ylab = "Frequência Absoluta")
+
